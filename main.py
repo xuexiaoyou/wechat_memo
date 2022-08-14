@@ -55,9 +55,8 @@ def get_random_color():
 
 def rainbow_words():
   url = "http://api.tianapi.com/caihongpi/index?key=" + key
-  res = requests.get(url).json()
-  data = res.json()['newslist'][0]
-  return data['content']
+  res = requests.get(url).json()['newslist'][0]
+  return res['content']
 
 
 client = WeChatClient(app_id, app_secret)
