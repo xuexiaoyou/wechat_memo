@@ -5,12 +5,14 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
+import http.client, urllib
 
 
 end_date = '2023-12-23' # 明年冬天的日期
 today = datetime.now()
 start_date = os.environ['START_DATE']
 city = os.environ['CITY']
+key = os.environ['KEY']
 birthday = os.environ['BIRTHDAY']
 
 app_id = os.environ["APP_ID"]
@@ -52,6 +54,14 @@ def get_words():
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
+def rainbow_words():
+  url = "http://api.tianapi.com/caihongpi/index?key=" + key
+  res = requests.get(url).json()
+  if res.status_code != 200:
+    return rainbow_words()
+  data = res.json()['newslist'][0]
+  return data['content']
+
 
 client = WeChatClient(app_id, app_secret)
 
@@ -62,7 +72,8 @@ data = {"weather":{"value":wea},
         "birthday":{"value":get_birthday(),"color":get_random_color()},
         "start_days":{"value":get_count(),"color":get_random_color()},
         "over_days":{"value":get_over_count(),"color":get_random_color()},   
-        "words":{"value":get_words(), "color":get_random_color()}
+        "words":{"value":get_words(), "color":get_random_color()},
+        "rainbow_words":{"value":rainbow_words(), "color":get_random_color()}
        }
 res = wm.send_template(user_id, template_id, data)
 print(res)
