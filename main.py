@@ -5,7 +5,6 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
-import http.client, urllib
 
 
 end_date = '2023-12-23' # 明年冬天的日期
