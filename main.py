@@ -35,7 +35,7 @@ def get_count():
 def get_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
   if next < datetime.now():
-  next = next.replace(year=next.year + 1)
+    next = next.replace(year=next.year + 1)
   return (next - today).days
 
 # 目标倒计时天数
