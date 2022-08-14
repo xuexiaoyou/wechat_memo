@@ -6,6 +6,8 @@ import requests
 import os
 import random
 
+
+end_date = '2023-12-23' # 明年冬天的日期
 today = datetime.now()
 start_date = os.environ['START_DATE']
 city = os.environ['CITY']
@@ -24,21 +26,21 @@ def get_weather():
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp'])
 
-# 过去天数计数
+# 过去天数计数，相识
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
 
 # 生日倒计时
-# def get_birthday():
-# next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
-# if next < datetime.now():
-# next = next.replace(year=next.year + 1)
-# return (next - today).days
+def get_birthday():
+next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
+if next < datetime.now():
+next = next.replace(year=next.year + 1)
+return (next - today).days
 
 # 目标倒计时天数
 def get_over_count():
-  delta_o = datetime.strptime("2023-12-23", "%Y-%m-%d")- today
+  delta_o = datetime.strptime(end_date, "%Y-%m-%d")- today
   return delta_o.days
 
 def get_words():
@@ -57,8 +59,9 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},
         "temperature":{"value":temperature, "color":get_random_color()},
-        "start_study_days":{"value":get_count(),"color":get_random_color()},
-        "over_days":{"value":get_over_count(),"color":get_random_color()},
+        "birthday":{"value":get_birthday(),"color":get_random_color()},
+        "start_days":{"value":get_count(),"color":get_random_color()},
+        "over_days":{"value":get_over_count(),"color":get_random_color()},   
         "words":{"value":get_words(), "color":get_random_color()}
        }
 res = wm.send_template(user_id, template_id, data)
