@@ -1,4 +1,4 @@
-name: morning
+name: morning_info
 on:
   schedule:
   - cron:  '0 12 * * *'
@@ -7,7 +7,7 @@ on:
 jobs:
   send_message:
     runs-on: ubuntu-latest
-    name: send morning to your girlfriend
+    name: send morning infomation
 
     steps:
     - name: checkout
